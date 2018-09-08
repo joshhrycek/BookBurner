@@ -18,13 +18,19 @@ function watchRecButton(data){
 }
 
 function getTastekidData(data,callback) {
-    const query = {
+    const settings = {
+      url: TASTEKID_URL,
+      data: {
         q:`book:${data.items[0].volumeInfo.title}`,
         type: "books",
         info: "1",
         k:"319027-BookBurn-IT9TT9CC",
-    }
-    $.getJSON(TASTEKID_URL, query, callback)
+      },
+    dataType:'jsonp',
+    type: 'GET',
+    success: callback
+  };
+    $.ajax(settings);
 }
 
 function displayTastekidData(data) {
