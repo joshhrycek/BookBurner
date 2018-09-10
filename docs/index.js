@@ -1,8 +1,12 @@
 const TASTEKID_URL ="https://tastedive.com/api/similar"
 
+
+
 function getDataFromGoogle(serachTerm, callback) {
-    const q = `https://www.googleapis.com/books/v1/volumes?q=`+`${serachTerm}`
-    $.getJSON(q, callback)
+    const url = `https://www.googleapis.com/books/v1/volumes?q=`
+    const q = {
+            search:`${serachTerm}`}
+    $.getJSON(url, q, callback)
 }
 
 function displayGoogleData(data) {
