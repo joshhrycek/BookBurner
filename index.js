@@ -70,20 +70,24 @@ function getSearchTerm() {
 
 function renderBookPage(data) {
     const info = data.items[0];
-    return `<h2 class="book-title">${info.volumeInfo.title}</h2>
+    return `<section role="contentInfo" aria-live="assertive">
+            <h2 class="book-title">${info.volumeInfo.title}</h2>
             <p class="author">Author: ${info.volumeInfo.authors}</p>
-            <img class="thumbnail" src="${info.volumeInfo.imageLinks.thumbnail}">
+            <img class="thumbnail" alt="Book Cover" src="${info.volumeInfo.imageLinks.thumbnail}">
             <p class="desc">${info.volumeInfo.description}</p>
-            <button type="button" class="rec-button">Get Recommendations</button>`
+            <button type="button" class="rec-button">Get Recommendations</button>
+            </section>`
 }
 
 function renderRecsPage(data) {
     const rule = /[^\w]/gi;
     const identifier = data.Name.replace(rule,'');
-    return `<h3><a href="" class="title-link">${data.Name}</a>
-    <span><i id="${identifier}" class="fas fa-arrow-alt-circle-down"></i></span>
-    </h3>
-        <p id="${identifier}-text" class="full-desc">${data.wTeaser}</p>`
+    return `<section role="contentInfo" aria-live="assertive">
+        <h3><a href="" class="title-link">${data.Name}</a>
+        <span><i id="${identifier}" class="fas fa-arrow-alt-circle-down"></i></span>
+        </h3>
+        <p id="${identifier}-text" class="full-desc">${data.wTeaser}</p>
+        </section>`
 }
 
 
