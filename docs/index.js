@@ -73,7 +73,7 @@ function renderBookPage(data) {
     return `<section role="contentInfo" aria-live="assertive">
             <h2 class="book-title">${info.volumeInfo.title}</h2>
             <p class="author">Author: ${info.volumeInfo.authors}</p>
-            <img class="thumbnail" alt="Book Cover" src="${info.volumeInfo.imageLinks.thumbnail}">
+            <img class="thumbnail" src="${info.volumeInfo.imageLinks.thumbnail}" alt="Book Cover" >
             <p class="desc">${info.volumeInfo.description}</p>
             <button type="button" class="rec-button">Get Recommendations</button>
             </section>`
