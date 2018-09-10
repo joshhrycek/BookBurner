@@ -86,7 +86,7 @@ function renderRecsPage(data) {
         <h3><a href="" class="title-link">${data.Name}</a>
         <span><i id="${identifier}" class="fas fa-arrow-alt-circle-down"></i></span>
         </h3>
-        <p id="${identifier}-text" class="full-desc">${data.wTeaser}</p>
+        <p id="${identifier}-text" class="full-desc" aria-live="assertive">${data.wTeaser}</p>
         </section>`
 }
 
