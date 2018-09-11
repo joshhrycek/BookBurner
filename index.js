@@ -70,7 +70,7 @@ function getSearchTerm() {
 
 function renderBookPage(data) {
     const info = data.items[0];
-    return `<section role="contentInfo" aria-live="assertive">
+    return `<section role="contentinfo" aria-live="assertive">
             <h2 class="book-title">${info.volumeInfo.title}</h2>
             <p class="author">Author: ${info.volumeInfo.authors}</p>
             <img class="thumbnail" src="${info.volumeInfo.imageLinks.thumbnail}" alt="Book Cover" >
@@ -82,7 +82,7 @@ function renderBookPage(data) {
 function renderRecsPage(data) {
     const rule = /[^\w]/gi;
     const identifier = data.Name.replace(rule,'');
-    return `<section role="contentInfo" aria-live="assertive">
+    return `<section role="contentinfo" aria-live="assertive">
         <h3><a href="" class="title-link">${data.Name}</a>
         <span><i id="${identifier}" class="fas fa-arrow-alt-circle-down"></i></span>
         </h3>
