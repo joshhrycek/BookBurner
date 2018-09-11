@@ -12,7 +12,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="index.js"></script>
     </head>
-    <body title="Library Shelves">
+    <body>
 
         <header role="banner">
             <div class="col-12 logo">
@@ -23,10 +23,11 @@
         <main role="main" aria-live="polite">
             <section id="intro" role="search">
                 <form class="col-12 row form" role="search">
-                    <legend class="form-legend"><h2>Search Books, Get Recommendations:</h2></legend>
+                    <legend class="form-legend"><h2>Search Books, Get Recommendations</h2></legend>
                     <label>Search Book Title:</label><br/>
                     <input type="text" class="serach-box col-4" placeholder="I.e: Catcher in the Rye" role="searchbox" required><br/>
                     <input type="submit" class="submit-button col-4">
+                    <div id="error"></div>
                 </form>
             </section>
         </main>

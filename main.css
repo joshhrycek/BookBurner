@@ -76,6 +76,10 @@ a:visited, a{
     margin: auto;
 }
 
+.serach-box{
+    padding: 10px;
+}
+
 
 .submit-button, .serach-box{
     margin-top: 10px;
@@ -86,6 +90,15 @@ a:visited, a{
 
 .submit-button{
     margin-top: 15px;
+}
+
+.morelink{
+    text-align: center;
+}
+
+#more-author{
+    text-align: center;
+    margin-top: -19px;
 }
 
 .book-title{
@@ -122,7 +135,7 @@ a:visited, a{
 }
 
 @media screen and (max-width:768px) {
-    .desc{
+    .desc, .morelink{
         font-size: 16px;
     }
 
@@ -148,7 +161,7 @@ a:visited, a{
         font-size: 13px;
     }
 
-    .desc{
+    .desc, .morelink{
         font-size: 12px;
     }
 
