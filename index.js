@@ -6,6 +6,11 @@ function getDataFromGoogle(searchTerm, callback) {
     $.getJSON(q, callback)
 }
 
+function getDetailsDataFromGoogle(url, callback) {
+    $.getJSON(url, callback)
+}
+
+
 function displayGoogleData(data) {
     if (data.totalItems === 0){
         renderBookError()
@@ -27,6 +32,7 @@ function watchMoreLink(data){
         event.preventDefault()
         const result = data.map(i => renderMoreList(i));
         $('main').html(result);
+        watchMoreNameLink()
     })
 }
 
@@ -54,6 +60,16 @@ function displayTastekidData(data) {
     watchNameLink()
     watchDesButton()
 }
+
+function watchMoreNameLink() {
+    $('main').one('click','#more-title-link', event =>{
+        event.preventDefault()
+        const details = $(this).attr('href')
+        console.log(details)
+        getDetailsDataFromGoogle(details, displayGoogleData)
+    });
+}
+
 
 function watchNameLink() {
     $('main').one('click','#title-link', event =>{
@@ -113,10 +129,9 @@ function renderBookPage(data) {
 function renderMoreList(data){
     const title = data.volumeInfo.title
     const author = data.volumeInfo.authors
-    watchNameLink()
     return `<section role="contentinfo" aria-live="assertive">
                 <h3>
-                    <a href="" id="title-link" alt="Get more information on book">${title}</a>
+                    <a href="${data.selfLink}" id="more-title-link" alt="Get more information on book">${title}</a>
                 </h3>
                 <p id="more-author">By: ${author}</p>
             </section>`

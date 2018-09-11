@@ -116,7 +116,7 @@ function renderMoreList(data){
     watchNameLink()
     return `<section role="contentinfo" aria-live="assertive">
                 <h3>
-                    <a href="" id="title-link" alt="Get more information on book">${title}</a>
+                    <a href="${data.selfLink}" id="title-link" alt="Get more information on book">${title}</a>
                 </h3>
                 <p id="more-author">By: ${author}</p>
             </section>`
