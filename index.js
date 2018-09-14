@@ -1,4 +1,5 @@
 const TASTEKID_URL ="https://tastedive.com/api/similar"
+let user_search = "";
 
 function getDataFromGoogle(searchTerm, callback) {
     const key = "AIzaSyCb7dVIUPSuzucz9fvlj-Ou9TnfzlpmOz0"
@@ -46,17 +47,53 @@ function getTastekidData(data,callback) {
     $.ajax(settings);
 }
 
+function getBackupTastekidData(searchTerm,callback) {
+    const settings = {
+      url: TASTEKID_URL,
+      data: {
+        q:`book:${searchTerm}`,
+        type: "books",
+        info: "1",
+        k:"319027-BookBurn-IT9TT9CC",
+      },
+    dataType:'jsonp',
+    type: 'GET',
+    success: callback
+  };
+    $.ajax(settings);
+}
+
+
 function displayTastekidData(data) {
-    const firstResult = data.Similar.Results.slice(0,10)
-    const secondResult = data.Similar.Results.slice(11,19)
-    const trueResult = firstResult.map(i => renderRecsPage(i));
-    $('main').html(trueResult);
-    watchNameLink()
-    watchDesButton()
+    console.log(data.Similar.Info[0].Type)
+    if (data.Similar.Info[0].Type === "book") {
+        const firstResult = data.Similar.Results.slice(0,10)
+        const secondResult = data.Similar.Results.slice(11,19)
+        const trueResult = firstResult.map(i => renderRecsPage(i));
+        $('main').html(trueResult);
+        watchNameLink()
+        watchDesButton()
+    }else{
+        getBackupTastekidData(user_search, displayBackupTastekidData)
+    }
+}
+
+function displayBackupTastekidData(data){
+    if (data.Similar.Info[0].Type === "book") {
+        const firstResult = data.Similar.Results.slice(0,10)
+        const secondResult = data.Similar.Results.slice(11,19)
+        const trueResult = firstResult.map(i => renderRecsPage(i));
+        $('main').html(trueResult);
+        watchNameLink()
+        watchDesButton()
+    }else{
+        $('main').html(renderRecsError())
+    }
 }
 
 function watchNameLink() {
     $('main').one('click','#title-link', event =>{
+        clearGlobalSearchVar()
         event.preventDefault()
         const title = $(event.currentTarget).text()
         getDataFromGoogle(title, displayGoogleData)  
@@ -77,6 +114,7 @@ function getSearchTerm() {
         event.preventDefault();
         $('#error').html('')
         let query = $(".serach-box").val()
+        updateGlobalSearchVar(query)
         const rule = /[^\w]/gi;
         const identifier = query.replace(rule,'');
         if (identifier === '') {
@@ -85,6 +123,30 @@ function getSearchTerm() {
             getDataFromGoogle(identifier, displayGoogleData)
         }
     })
+}
+
+function getErrorSearchTerm() {
+    $('main').on('submit','.form-error', event => {
+        event.preventDefault();
+        let query = $(".serach-box-error").val()
+        updateGlobalSearchVar(query)
+        const rule = /[^\w]/gi;
+        const identifier = query.replace(rule,'');
+        if (identifier === '') {
+            renderBookError()
+        }else{
+            getBackupTastekidData(query, displayTastekidData)
+        }
+    })
+}
+
+
+function updateGlobalSearchVar(term) {
+    user_search = term;
+}
+
+function clearGlobalSearchVar(){
+    return user_search = "";
 }
 
 function renderBookError(){
@@ -133,6 +195,16 @@ function renderRecsPage(data) {
         </section>`
 }
 
+function renderRecsError(){
+    getErrorSearchTerm()
+    return `
+            <form class="col-12 row form-error" role="search">
+            <legend class="form-legend"><h2 id="rec-error">We are sorry, we couldn't find any reccomendations.</br>Try a manual search for your book</h2></legend>
+            <label>Search Recommendations for:</label><br/>
+            <input type="text" class="serach-box-error col-4" placeholder="I.e: Catcher in the Rye" role="searchbox" required><br/>
+            <input type="submit" class="submit-button-error col-4">
+            </form>`
+}
 
 function createApp() {
     getSearchTerm()

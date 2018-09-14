@@ -51,7 +51,7 @@ a:visited, a{
     display: none;
 }
 
-.logo, .form, .book-title, .author, .desc, .rating, h3{
+.logo, .form, .book-title, .author, .desc, .rating, .form-error, h3{
     text-align: center;
     display: block;
 }
@@ -76,12 +76,12 @@ a:visited, a{
     margin: auto;
 }
 
-.serach-box{
+.serach-box, .serach-box-error{
     padding: 10px;
 }
 
 
-.submit-button, .serach-box{
+.submit-button, .serach-box, .submit-button-error, .serach-box-error{
     margin-top: 10px;
     width: 280px;
     border-radius: 5px;
