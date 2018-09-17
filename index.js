@@ -7,6 +7,10 @@ function getDataFromGoogle(searchTerm, callback) {
     $.getJSON(q, callback)
 }
 
+function getDetailsDataFromGoogle(url, callback) {
+    $.getJSON(url, callback)
+}
+
 function displayGoogleData(data) {
     if (data.totalItems === 0){
         renderBookError()
@@ -14,6 +18,11 @@ function displayGoogleData(data) {
         $('main').html(renderBookPage(data))
         watchRecButton(data);
     }
+}
+
+function displayMoreGoogleData(data) {
+        $('main').html(renderMoreBookPage(data))
+        watchRecButton(data);
 }
 
 function watchRecButton(data){
@@ -28,6 +37,7 @@ function watchMoreLink(data){
         event.preventDefault()
         const result = data.map(i => renderMoreList(i));
         $('main').html(result);
+        watchMoreNameLink()
     })
 }
 
@@ -109,6 +119,15 @@ function watchDesButton(){
     })
 }
 
+function watchMoreNameLink() {
+    $('main').on('click','#more-title-link', event =>{
+        event.preventDefault()
+        let url = $(event.currentTarget).attr('href')
+        console.log(url)
+        getDetailsDataFromGoogle(url, displayMoreGoogleData)
+    });
+}
+
 function getSearchTerm() {
     $('form').on('submit', event => {
         event.preventDefault();
@@ -172,13 +191,25 @@ function renderBookPage(data) {
             </section>`
 }
 
+function renderMoreBookPage(data) {
+    const info = data
+    return `<section role="contentinfo" aria-live="assertive">
+    <h2 class="book-title">${info.volumeInfo.title}</h2>
+    <p class="author">Author: ${info.volumeInfo.authors}</p>
+    <img class="thumbnail" src="${info.volumeInfo.imageLinks.thumbnail}" alt="Book Cover" >
+    <p class="desc">${info.volumeInfo.description}</p>
+    <button type="button" class="rec-button">Get Recommendations</button>
+    <p class="morelink">Not the book you are looking for? <a href="" alt="Book list">Click Here!</a></p>
+    </section>`
+}
+
 function renderMoreList(data){
     const title = data.volumeInfo.title
     const author = data.volumeInfo.authors
     watchNameLink()
     return `<section role="contentinfo" aria-live="assertive">
                 <h3>
-                    <a href="" id="title-link" alt="Get more information on book">${title}</a>
+                    <a href="${data.selfLink}" id="more-title-link" alt="Get more information on book">${title}</a>
                 </h3>
                 <p id="more-author">By: ${author}</p>
             </section>`
